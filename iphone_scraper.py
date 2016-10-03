@@ -20,7 +20,7 @@ def get_iphone_avail(color):
   email_message = "The following stores have stock: \n"
   no_of_shops = 0
   for shop in nid_codes:
-    if(soup.select(".nid-"+str(shop[1])+" > .soldout")):
+    if(soup.select(".nid-"+str(shop[1])+" > .available")):
       email_message += shop[0] +"\n"
       no_of_shops +=1
   return email_message, no_of_shops
@@ -37,11 +37,7 @@ def send_email(message):
   mail.quit()
 
 def auth_twitter():
-  auth = tweepy.OAuthHandler(logins.t_key, logins.t_key)
-  # try:
-  #   redirect_url = auth.get_authorization_url()
-  # except tweepy.TweepError:
-  #   print 'Error! Failed to get request token.'
+  auth = tweepy.OAuthHandler(logins.t_key, logins.t_secret)
   auth.set_access_token(logins.t_access_token, logins.t_access_secret)
   api = tweepy.API(auth)
   return api
@@ -51,4 +47,4 @@ availability = get_iphone_avail("black")
 if(availability[1]!=0):
   # send_email(availability[0])
   API = auth_twitter()
-  API.update_status("First Tweet and shizz")
+  API.update_status(status=availability[0]+"@mychkoh")
