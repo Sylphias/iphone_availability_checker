@@ -45,6 +45,6 @@ def auth_twitter():
 availability = get_iphone_avail("black")
 # print(availability)
 if(availability[1]!=0):
-  # send_email(availability[0])
+  send_email(availability[0])
   API = auth_twitter()
   API.update_status(status=availability[0]+"@mychkoh")
